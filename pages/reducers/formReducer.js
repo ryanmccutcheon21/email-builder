@@ -13,7 +13,7 @@ const formReducer = (state, action) => {
         case 'set_cb':
             return { ...state, [action.field]: action.payload === 'yes' ? true : false }
         default:
-            throw Error('Unknown action.')
+            console.log('Unknown action.')
     }
 }
 
