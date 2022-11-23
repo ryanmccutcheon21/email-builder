@@ -3,7 +3,10 @@ import formReducer from "../reducers/formReducer"
 import Email from "./Email"
 
 const initialForm = {
+    jobTitle: '',
+    client: '',
     location: 'remote',
+    locations: '',
     yearsExperience: '0',
     employmentType: 'contract',
     payType: 'yr',
