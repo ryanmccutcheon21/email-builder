@@ -9,16 +9,28 @@ const initialForm = {
     locations: '',
     yearsExperience: '0',
     employmentType: 'contract',
-    payType: 'yr',
+    payType: 'hr',
     coderbyte: true
 }
 
 const Form = () => {
     const [state, dispatch] = useReducer(formReducer, initialForm)
     const [showEmail, setShowEmail] = useState(false)
+    const [showLocations, setShowLocations] = useState(false)
+    const [showContractLength, setShowContractLength] = useState(false)
 
     useEffect(() => {
         console.log(state)
+        if (state.location === 'on-site' || state.location === 'hybrid') {
+            setShowLocations(true)
+        } else if (state.employmentType === 'contract-to-hire' && state.location === 'remote') {
+            setShowLocations(true)
+        } else if (state.employmentType === 'contract-to-hire' || state.employmentType === 'contract') {
+            setShowContractLength(true)
+        } else {
+            setShowLocations(false)
+            setShowContractLength(false)
+        }
     }, [state])
 
     const handleSubmit = () => {
@@ -56,7 +68,7 @@ const Form = () => {
                 })}
             />
             {/* Location */}
-            <label for="location" class="block">Work location:</label>
+            <label htmlFor="location" class="block">Work location:</label>
             <select id="location" name="location" class="border border-gray-600 p-2" onChange={e => dispatch({
                 type: 'set_location',
                 field: e.target.name,
@@ -66,7 +78,7 @@ const Form = () => {
                 <option value="hybrid">Hybrid</option>
                 <option value="on-site">On-site</option>
             </select>
-            {state.location === 'on-site' || state.location === 'hybrid' && (
+            {showLocations && (
                 <>
                     <label htmlFor="locations">Location/s:</label>
                     <input
@@ -107,10 +119,26 @@ const Form = () => {
                     payload: e.target.value
                 })}
             >
-                <option value="full-time">Full-time</option>
                 <option value="contract">Contract</option>
                 <option value="contract-to-hire">Contract-to-hire</option>
+                <option value="full-time">Full-time</option>
             </select>
+            {showContractLength && (
+                <>
+                    <label htmlFor="years-experience">Contract Length: </label>
+                    <input
+                        type='number'
+                        id="contract-length"
+                        name="contractLength"
+                        className="border border-gray-600 px-2"
+                        onChange={e => dispatch({
+                            type: 'set_contract',
+                            field: e.target.name,
+                            payload: e.target.value
+                        })}
+                    />
+                </>
+            )}
             {/* Pay Range */}
             <div>
                 <p>Pay Range:</p>
@@ -141,8 +169,8 @@ const Form = () => {
                         field: e.target.name,
                         payload: e.target.value
                     })}>
-                        <option value="yr">Per Year</option>
                         <option value="hr">Per Hour</option>
+                        <option value="yr">Per Year</option>
                         <option value="day">Per Day</option>
                     </select>
                 </div>
@@ -152,7 +180,7 @@ const Form = () => {
             <select
                 id="coderbyte"
                 name="coderbyte"
-                class="border border-gray-600 p-2"
+                className="border border-gray-600 p-2"
                 onChange={e => dispatch({
                     type: 'set_cb',
                     field: e.target.name,

@@ -9,6 +9,7 @@ const formReducer = (state, action) => {
         case 'set_min':
         case 'set_max':
         case 'set_pay_type':
+        case 'set_contract':
             return { ...state, [action.field]: action.payload }
         case 'set_cb':
             return { ...state, [action.field]: action.payload === 'yes' ? true : false }
