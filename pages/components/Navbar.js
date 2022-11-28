@@ -1,10 +1,17 @@
 import Link from 'next/link'
 import React from 'react'
 
+const linkStyles = {
+    className: 'hover:underline'
+}
+
 const Navbar = () => {
     return (
-        <nav>
-            <Link className='hover:underline flex justify-end mr-5 mt-5' href='/create'>Create Account.</Link>
+        <nav className='flex justify-between mx-5 mt-5'>
+            <Link {...linkStyles} href='/'>Home</Link>
+            <Link {...linkStyles} href='/create'>
+                Create Account.
+            </Link>
         </nav>
     )
 }
