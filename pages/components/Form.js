@@ -25,10 +25,13 @@ const Form = () => {
             setShowLocations(true)
         } else if (state.employmentType === 'contract-to-hire' && state.location === 'remote') {
             setShowLocations(true)
-        } else if (state.employmentType === 'contract-to-hire' || state.employmentType === 'contract') {
-            setShowContractLength(true)
         } else {
             setShowLocations(false)
+        }
+
+        if (state.employmentType === 'contract-to-hire' || state.employmentType === 'contract') {
+            setShowContractLength(true)
+        } else {
             setShowContractLength(false)
         }
     }, [state])
