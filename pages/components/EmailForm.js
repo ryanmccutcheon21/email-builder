@@ -13,7 +13,7 @@ const initialForm = {
     coderbyte: true
 }
 
-const Form = () => {
+const EmailForm = () => {
     const [state, dispatch] = useReducer(formReducer, initialForm)
     const [showEmail, setShowEmail] = useState(false)
     const [showLocations, setShowLocations] = useState(false)
@@ -202,4 +202,4 @@ const Form = () => {
     )
 }
 
-export default Form
+export default EmailForm

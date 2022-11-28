@@ -1,5 +1,7 @@
 import Head from 'next/head'
-import Form from './components/Form'
+import Footer from './components/Footer'
+import EmailForm from './components/EmailForm'
+import Navbar from './components/Navbar'
 
 export default function Home() {
   return (
@@ -11,13 +13,15 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <header>
+        <Navbar />
+      </header>
+
       <main className='h-[100vh] w-[100vw] flex flex-col justify-center'>
-        <Form />
+        <EmailForm />
       </main>
 
-      <footer>
-
-      </footer>
+      <Footer />
     </div >
   )
 }
