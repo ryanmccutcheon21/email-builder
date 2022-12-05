@@ -35,6 +35,9 @@ const Login = ({ users }) => {
         const res = users.filter(obj => {
             obj.email === user.email
         })
+        // if (res) {
+        //     signIn()
+        // }
     }
 
     const attributes = {
