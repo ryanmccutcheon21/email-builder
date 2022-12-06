@@ -32,12 +32,13 @@ const Login = ({ users }) => {
             alert('Invalid credentials')
             return
         }
-        const res = users.filter(obj => {
+        const res = users.find(obj => {
             obj.email === user.email
         })
-        // if (res) {
-        //     signIn()
-        // }
+        if (res !== undefined) {
+            // signIn()
+            console.log('signed in')
+        }
     }
 
     const attributes = {
@@ -52,7 +53,7 @@ const Login = ({ users }) => {
         },
         buttonAttributes: {
             className: 'bg-red-900 hover:bg-red-800 text-white w-[35%] mx-auto rounded my-4 py-2',
-            onClick: () => { handleSubmit }
+            onClick: () => { signIn() }
         }
     }
     return (

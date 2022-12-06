@@ -1,7 +1,7 @@
 const Email = ({ data, handleSubmit }) => {
 
     return (
-        <div className='container mx-auto'>
+        <div className='h-[100vh] flex flex-col justify-center mx-10'>
             <p className='mb-8'>Hi,</p>
             {data.jobTitle && data.client && data.location === 'remote' ? (
                 <p className='mb-8'>I&apos;m Ryan McCutcheon, a Technical Recruiter at Apex Systems. I am reaching out regarding a Remote {data.jobTitle} opportunity with our client, {data.client}.</p>
@@ -33,9 +33,7 @@ const Email = ({ data, handleSubmit }) => {
             )}
             <p className='my-8'>Best,</p>
             <p>Ryan McCutcheon</p>
-            <div className='w-[100vw] flex justify-center'>
-                <buton type='button' onClick={handleSubmit} className='bg-red-900 p-2 rounded text-white mt-5 text-center hover:bg-red-700 hover:cursor-pointer w-[20rem]'>Close</buton>
-            </div>
+            <button type='button' onClick={handleSubmit} className='bg-red-900 p-2 rounded text-white mt-5 text-center hover:bg-red-700 hover:cursor-pointer w-[20rem] mx-auto'>Close</button>
         </div>
     )
 }
