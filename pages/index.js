@@ -43,7 +43,7 @@ const Home = () => {
   if (showEmail) return <Email handleSubmit={handleSubmit} data={state} />
 
   return (
-    <div className='h-[100vh] flex flex-col justify-center'>
+    <div className='h-[90vh] flex flex-col justify-center'>
       <form className="flex flex-col w-[50%] border border-gray-600 rounded-xl mx-auto p-5">
         {/* Title */}
         <label htmlFor='job-title'>Job Title:</label>

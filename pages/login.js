@@ -1,71 +1,53 @@
-import React, { useState, useEffect } from 'react'
-import clientPromise from '../lib/mongodb';
-// import { useSession } from 'next-auth/react'
+import React, { useState } from 'react'
+import { useStateContext } from '../context/StateContext';
 
-export const getStaticProps = async () => {
-    const client = await clientPromise;
-    const db = client.db('email-builder');
-
-    const users = await db
-        .collection("users")
-        .find({})
-        .limit(1000)
-        .toArray();
-    return {
-        props: { users: JSON.parse(JSON.stringify(users)) },
-    };
-}
-
-const Login = ({ users }) => {
+const Login = () => {
     const [user, setUser] = useState({})
-    // const session = useSession()
+    const { signIn } = useStateContext()
 
-    useEffect(() => {
-        console.log(user)
-        console.log(users)
-        // console.log(session)
-    }, [user])
+    const fetchUsers = async () => {
+        const res = await fetch('/api/users')
+        const data = await res.json()
+        return data
+    }
 
-    const handleSubmit = async () => {
-        // Validation
+    const handleClick = async (e) => {
+        e.preventDefault()
         if (!user.email) {
-            alert('Invalid credentials')
-            return
+            alert('You must enter a valid email address.')
         }
-        const res = users.find(obj => {
-            obj.email === user.email
+        const users = await fetchUsers()
+        await users.filter(obj => {
+            if (obj.email === user.email) {
+                signIn()
+            }
         })
-        if (res !== undefined) {
-            // signIn()
-            console.log('signed in')
-        }
     }
 
-    const attributes = {
-        labelAttributes: {
-            className: 'mx-auto'
-        },
-        inputAttributes: {
-            className: 'mx-auto border border-gray-600 my-2 pl-2',
-            onChange: (e) => {
-                setUser({ ...user, [e.target.name]: e.target.value })
-            }
-        },
-        buttonAttributes: {
-            className: 'bg-red-900 hover:bg-red-800 text-white w-[35%] mx-auto rounded my-4 py-2',
-            onClick: () => { signIn() }
-        }
-    }
     return (
-        <div className='h-[100vh] flex flex-col justify-center'>
+        <div className='h-[90vh] flex flex-col justify-center'>
             <form className='flex flex-col justify-center border border-gray-600 w-[50%] mx-auto p-5 rounded-xl'>
-                <label {...attributes.labelAttributes} htmlFor='email'>Email:</label>
-                <input {...attributes.inputAttributes} type='email' name='email' id='email' />
-                {/* <label {...attributes.labelAttributes} htmlFor='password'>Password:</label>
-                <input {...attributes.inputAttributes} name='password' type='password' id='password' /> */}
-                <button {...attributes.buttonAttributes}>Login</button>
+                <label
+                    className='mx-auto'
+                    htmlFor='email'
+                >
+                    Email:
+                </label>
+                <input
+                    className='mx-auto border border-gray-600 my-2 pl-2'
+                    type='email'
+                    name='email'
+                    id='email'
+                    onChange={e => setUser({ ...user, [e.target.name]: e.target.value })}
+                />
+                <button
+                    className='bg-red-900 hover:bg-red-800 text-white w-[35%] mx-auto rounded my-4 py-2'
+                    onClick={handleClick}
+                >
+                    Login
+                </button>
             </form>
-        </div>
+        </div >
     )
 }
 
