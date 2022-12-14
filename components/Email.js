@@ -1,7 +1,7 @@
 const Email = ({ data, handleSubmit }) => {
 
     return (
-        <div className='h-[100vh] flex flex-col justify-center mx-10'>
+        <div className='flex flex-col justify-center w-[50%] mx-auto my-10'>
             <p className='mb-8'>Hi,</p>
             {data.jobTitle && data.client && data.location === 'remote' ? (
                 <p className='mb-8'>I&apos;m Ryan McCutcheon, a Technical Recruiter at Apex Systems. I am reaching out regarding a Remote {data.jobTitle} opportunity with our client, {data.client}.</p>
