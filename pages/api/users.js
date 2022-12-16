@@ -1,28 +1,35 @@
-import clientPromise from '../../lib/mongodb'
+// import { signUp } from "../../controllers/user"
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
+import User from '../../models/user'
 
 export default async function handler(req, res) {
-  const client = await clientPromise;
-  const db = client.db('email-builder')
-  const { user } = req.body
-
   if (req.method === 'POST') {
     try {
-      //Check existing
-      const checkExisting = await db
-        .collection('users')
-        .findOne({
-          email: user.email
+      const { first, last, title, email, password, confirmPassword } = req.body.user
+
+      try {
+        const existingUser = await User.findOne({ email })
+        if (existingUser) return res.status(400).json({ message: 'User already exists' })
+
+        if (password !== confirmPassword) return res.status(400).json({ message: 'Passwords do not match!' })
+        const hashedPassword = await bcrypt.hash(password, 12)
+
+        const newUser = new User({
+          name: `${first} ${last}`,
+          title,
+          email,
+          password: hashedPassword
         })
-      // Send error response if duplicate user is found
-      if (checkExisting) {
-        res.status(422).json({ message: 'User already exists' })
-        client.close()
-        return
+        newUser.save((err) => {
+          if (err) return console.error(err)
+        })
+        const token = jwt.sign({ email: result.email, id: result._id }, 'test', { expiresIn: '1h' })
+
+        res.status(201).json({ newUser, token })
+      } catch (err) {
+        res.status(500).json({ message: 'Something went wrong' })
       }
-      const post = await db.collection('users').insertOne(user).then(result => {
-        res.status(201).json(result.ops[0])
-      })
-      res.json(post)
     } catch (error) {
       console.error(error)
     }

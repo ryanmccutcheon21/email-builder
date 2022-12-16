@@ -48,8 +48,10 @@ const CreateUser = () => {
                 <input {...textInput} name='title' placeholder='Ex: Technical Recruiter' />
                 <label>Email:</label>
                 <input {...textInput} name='email' placeholder='Email address' />
-                {/* <label>Password:</label>
-            <input onChange={textInput.onChange} type='password' className='pl-2' name='password' /> */}
+                <label>Password:</label>
+                <input onChange={textInput.onChange} type='password' className='pl-2' name='password' />
+                <label>Confirm Password::</label>
+                <input onChange={textInput.onChange} type='password' className='pl-2' name='confirmPassword' />
                 <button onClick={handleSubmit} className='bg-red-900 w-[50%] mx-auto rounded my-5 py-2 text-white hover:bg-red-800'>Create Account</button>
             </form>
         </div>
