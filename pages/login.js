@@ -3,25 +3,36 @@ import { useStateContext } from '../context/StateContext';
 
 const Login = () => {
     const [user, setUser] = useState({})
-    const { signIn } = useStateContext()
-
-    const fetchUsers = async () => {
-        const res = await fetch('/api/users')
-        const data = await res.json()
-        return data
-    }
+    const { signIn, userGlobal, setSignedInUser } = useStateContext()
 
     const handleClick = async (e) => {
         e.preventDefault()
-        if (!user.email) {
-            alert('You must enter a valid email address.')
+        // Validation
+        if (!user.email || !user.password) {
+            alert('Invalid credentials')
+            return
         }
-        const users = await fetchUsers()
-        await users.filter(obj => {
-            if (obj.email === user.email) {
-                signIn()
+        const res = await fetch(`/api/signIn`, {
+            method: 'POST',
+            body: JSON.stringify({ user }),
+            headers: {
+                'Content-Type': 'application/json'
             }
         })
+        const data = await res.json()
+        // console.log(data.result)
+        if (data) {
+            signIn()
+            setSignedInUser(data.result)
+            console.log(userGlobal)
+        } else {
+            console.log("Couldn't sign in.")
+        }
+    }
+
+    const onChange = e => {
+        e.preventDefault()
+        setUser({ ...user, [e.target.name]: e.target.value })
     }
 
     return (
@@ -38,7 +49,20 @@ const Login = () => {
                     type='email'
                     name='email'
                     id='email'
-                    onChange={e => setUser({ ...user, [e.target.name]: e.target.value })}
+                    onChange={onChange}
+                />
+                <label
+                    className='mx-auto'
+                    htmlFor='password'
+                >
+                    Password:
+                </label>
+                <input
+                    className='mx-auto border border-gray-600 my-2 pl-2'
+                    type='password'
+                    name='password'
+                    id='password'
+                    onChange={onChange}
                 />
                 <button
                     className='bg-red-900 hover:bg-red-800 text-white w-[35%] mx-auto rounded my-4 py-2'

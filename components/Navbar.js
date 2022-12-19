@@ -7,12 +7,18 @@ const linkStyles = {
 }
 
 const Navbar = () => {
-    const { isSignIn } = useStateContext()
+    const { isSignIn, signOut } = useStateContext()
 
     return (
         <nav className='flex justify-between mx-5 mt-5'>
             <Link {...linkStyles} href='/'>Home</Link>
-            <Link {...linkStyles} href='/login'>{!isSignIn ? 'Login' : 'Logout'}</Link>
+            {!isSignIn ? (
+                <Link {...linkStyles} href='/login'>Login</Link>
+
+            ) : (
+                <p {...linkStyles} onClick={signOut}>Logout</p>
+
+            )}
             <Link {...linkStyles} href='/create'>Create Account</Link>
         </nav>
     )

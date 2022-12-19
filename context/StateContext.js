@@ -1,28 +1,22 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-// import { toast } from "react-hot-toast";
+import React, { createContext, useContext, useState } from "react";
+import { toast } from "react-hot-toast";
 
 const Context = createContext()
 
 export const StateContext = ({ children }) => {
     const [isSignIn, setIsSignIn] = useState(false)
-    const [user, setUser] = useState({})
+    const [userGlobal, setUserGlobal] = useState({})
 
-    const fetchUsers = async () => {
-        const res = await fetch('/api/users')
-        const data = await res.json()
-        return data
-    }
-
-    const signIn = async () => {
-        const users = await fetchUsers()
-        await users.filter(obj => {
-            if (obj.email === email) {
-                setIsSignIn(true)
-            }
-        })
+    const signIn = () => {
+        setIsSignIn(true)
+        toast.success('Signed in!')
     }
     const signOut = () => {
         setIsSignIn(false)
+    }
+
+    const setSignedInUser = (user) => {
+        setUserGlobal(user)
     }
 
     return (
@@ -30,7 +24,10 @@ export const StateContext = ({ children }) => {
             value={{
                 signIn,
                 signOut,
-                isSignIn
+                isSignIn,
+                setUserGlobal,
+                userGlobal,
+                setSignedInUser
             }}
         >
             {children}
